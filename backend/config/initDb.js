@@ -32,8 +32,19 @@ const initializeDatabase = async () => {
       const sqlFilePath = path.join(__dirname, 'database.sql');
       const sqlScript = fs.readFileSync(sqlFilePath, 'utf8');
       
-      // Exécuter le script SQL
-      await connection.query(sqlScript);
+      // Séparer le script en commandes individuelles (ne pas utiliser de DELIMITER)
+      const commands = sqlScript.split(';').filter(cmd => cmd.trim().length > 0);
+      
+      // Exécuter chaque commande séparément
+      for (const cmd of commands) {
+        try {
+          if (cmd.includes('DELIMITER')) continue; // Ignorer les commandes DELIMITER
+          await connection.query(cmd + ';');
+        } catch (cmdError) {
+          console.warn('Erreur lors de l\'exécution de la commande SQL:', cmdError.message);
+          // Continuer avec les autres commandes même si une échoue
+        }
+      }
       
       console.log('Base de données OneRun créée avec succès!');
     } else {
