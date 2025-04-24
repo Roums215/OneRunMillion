@@ -52,15 +52,8 @@ const io = socketIo(server, {
   transports: ['websocket', 'polling'] // Permet polling en fallback
 });
 
-// Middleware de sécurité et de CORS pour production
-app.use(cors({
-  origin: corsOrigins,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  optionsSuccessStatus: 200,
-  maxAge: 86400
-}));
+// Second middleware CORS (supprimé car redondant avec celui du dessus)
+/* Configuration redundante supprimée pour éviter les erreurs */
 
 // Middleware spécifique pour les requêtes OPTIONS (préflight CORS)
 app.options('*', cors());
