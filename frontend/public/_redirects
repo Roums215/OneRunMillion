@@ -1,0 +1,2 @@
+/api/*  https://onerunmillion.onrender.com/api/:splat  200
+/socket.io/*  https://onerunmillion.onrender.com/socket.io/:splat  200
