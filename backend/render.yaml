@@ -3,7 +3,7 @@ services:
     name: onerunmillion
     env: node
     buildCommand: npm install
-    startCommand: node server.js
+    startCommand: node start-render.js
     envVars:
       - key: NODE_ENV
         value: production

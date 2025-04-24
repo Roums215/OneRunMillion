@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Backend server for OneRun premium ranking application",
   "main": "server.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
