@@ -28,4 +28,4 @@ services:
       - key: STRIPE_WEBHOOK_SECRET
         sync: false
       - key: CORS_ORIGIN
-        value: https://onerun-premium.netlify.app
+        value: https://s1043322554.onlinehome.fr
