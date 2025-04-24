@@ -248,14 +248,18 @@ const Leaderboard = () => {
                     </div>
                     <div className="amount-column">{formatCurrency(entry.totalSpent)}</div>
                     <div className="badges-column">
-                      {entry.badges.map((badge, index) => (
-                        <span 
-                          key={index} 
-                          className={`badge badge-${badge.toLowerCase().replace(' ', '-')}`}
-                        >
-                          {badge}
-                        </span>
-                      ))}
+                      {entry.badges && entry.badges.length > 0 ? (
+                        entry.badges.map((badge, index) => (
+                          <span 
+                            key={index} 
+                            className={`badge badge-${badge.toLowerCase().replace(' ', '-')}`}
+                          >
+                            {badge}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="badge badge-basic">Member</span>
+                      )}
                     </div>
                   </div>
                 ))
