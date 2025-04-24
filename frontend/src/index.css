@@ -1,0 +1,177 @@
+/* Base styles */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #121212;
+  color: #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Luxury theme */
+:root {
+  --gold: #d4af37;
+  --gold-light: #f4e9ca;
+  --gold-gradient: linear-gradient(45deg, #d4af37, #f8e7b3);
+  --gold-glow: 0 0 15px rgba(212, 175, 55, 0.6);
+  
+  /* Updated color palette with more white and contrast */
+  --black: #121212;
+  --dark-gray: #1e1e1e;
+  --medium-gray: #333333;
+  --light-gray: #888888;
+  --soft-white: #f8f9fa;
+  --cream: #f5f5f0;
+  --pearl: #eaeaea;
+  --white: #ffffff;
+  
+  /* Accent colors for luxury */
+  --burgundy: #800020;
+  --burgundy-light: #a0213a;
+  --royal-purple: #7851a9;
+  --royal-purple-light: #9a74c9;
+  --deep-blue: #1a237e;
+  --deep-blue-light: #303f9f;
+  --emerald: #046307;
+  --emerald-light: #0b8a0b;
+  --champagne: #f7e7ce;
+  --silver: #c0c0c0;
+  
+  /* Gradients */
+  --gold-white-gradient: linear-gradient(135deg, var(--gold), var(--white));
+  --white-gold-gradient: linear-gradient(135deg, var(--white), var(--gold));
+  --gold-burgundy-gradient: linear-gradient(135deg, var(--gold), var(--burgundy));
+  --royal-gold-gradient: linear-gradient(135deg, var(--royal-purple), var(--gold));
+  --emerald-gold-gradient: linear-gradient(135deg, var(--emerald), var(--gold));
+  --blue-gold-gradient: linear-gradient(135deg, var(--deep-blue), var(--gold));
+  --pearl-gold-gradient: linear-gradient(135deg, var(--pearl), var(--gold));
+  --champagne-gold-gradient: linear-gradient(135deg, var(--champagne), var(--gold));
+  
+  /* Light panel backgrounds */
+  --light-panel: rgba(255, 255, 255, 0.08);
+  --light-panel-hover: rgba(255, 255, 255, 0.15);
+  --glass-effect: backdrop-filter: blur(10px);
+  
+  /* Animations */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* Shadows for depth */
+  --light-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+  --gold-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  --gold-shadow-intense: 0 6px 20px rgba(212, 175, 55, 0.5);
+}
+
+/* Custom scrollbar for luxury feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-light);
+}
+
+/* Utility classes */
+.text-gold {
+  color: var(--gold);
+}
+
+.bg-gold {
+  background-color: var(--gold);
+  color: var(--black);
+}
+
+.gold-border {
+  border: 1px solid var(--gold);
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn-gold {
+  background-color: var(--gold);
+  color: var(--black);
+}
+
+.btn-gold:hover {
+  background-color: var(--gold-light);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+
+.btn-outline:hover {
+  background-color: var(--gold);
+  color: var(--black);
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif;
+  border: 1px solid var(--light-gray);
+  border-radius: 4px;
+  background-color: var(--dark-gray);
+  color: var(--white);
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+/* Card */
+.card {
+  background-color: var(--dark-gray);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}

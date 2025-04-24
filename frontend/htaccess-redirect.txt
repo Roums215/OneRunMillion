@@ -1,0 +1,51 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Rediriger les requêtes API vers Render
+  RewriteCond %{HTTP_HOST} ^api\.s1043322554\.onlinehome\.fr$ [OR]
+  RewriteCond %{HTTP_HOST} ^s1043322554\.onlinehome\.fr$
+  RewriteCond %{REQUEST_URI} ^/api/
+  RewriteRule ^api/(.*)$ https://onerunmillion.onrender.com/api/$1 [P,L]
+  
+  # Rediriger les requêtes WebSocket vers Render
+  RewriteCond %{HTTP_HOST} ^api\.s1043322554\.onlinehome\.fr$ [OR]
+  RewriteCond %{HTTP_HOST} ^s1043322554\.onlinehome\.fr$
+  RewriteCond %{REQUEST_URI} ^/socket\.io/
+  RewriteRule ^socket\.io/(.*)$ wss://onerunmillion.onrender.com/socket.io/$1 [P,L]
+  
+  # Règles standard pour SPA React
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# En-têtes CORS pour permettre la communication avec Render
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+  Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+</IfModule>
+
+# Optimisation de la mise en cache pour les éléments de design luxueux
+<IfModule mod_expires.c>
+  ExpiresActive On
+  
+  # Images (pour les éléments visuels premium)
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  
+  # CSS (pour les animations et effets dorés)
+  ExpiresByType text/css "access plus 1 month"
+  
+  # JavaScript (pour les animations 3D et effets de lumière)
+  ExpiresByType application/javascript "access plus 1 month"
+  
+  # Fonts (pour l'aspect premium)
+  ExpiresByType application/x-font-ttf "access plus 1 month"
+  ExpiresByType font/opentype "access plus 1 month"
+  ExpiresByType application/x-font-woff "access plus 1 month"
+</IfModule>

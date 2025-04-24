@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: onerunmillion
+    env: node
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MYSQL_HOST
+        value: mysql.railway.internal
+      - key: MYSQL_PORT
+        value: 3306
+      - key: MYSQL_DATABASE
+        value: railway
+      - key: MYSQL_USER
+        value: root
+      - key: MYSQL_PASSWORD
+        value: szRHLnqRYLxCLfrVnIXVLZFDTbwzYwzK
+      - key: JWT_SECRET
+        value: OneRunMillionSecretKey2025
+      - key: JWT_EXPIRATION
+        value: 7d
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://unrivaled-beijinho-840dcb.netlify.app,https://s1043322554.onlinehome.fr
+      - key: DEMO_MODE
+        value: false
