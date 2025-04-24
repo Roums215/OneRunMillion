@@ -1,7 +1,7 @@
 [build]
   base = "."
   publish = "frontend/build"
-  command = "cd frontend && CI=false npm run build"
+  command = "cd frontend && npm install && CI=false npm run build"
 
 [functions]
   directory = "netlify/functions"
