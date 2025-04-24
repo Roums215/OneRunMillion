@@ -103,11 +103,9 @@ BEGIN
   GROUP BY u.id
   HAVING totalAmount > 0
   ORDER BY totalAmount DESC;
-END //
-DELIMITER ;
+END;
 
 -- Procédure pour mettre à jour les classements mensuels
-DELIMITER //
 CREATE PROCEDURE updateMonthlyLeaderboard()
 BEGIN
   DECLARE currentMonthStart DATE;
@@ -129,8 +127,50 @@ BEGIN
   GROUP BY u.id
   HAVING totalAmount > 0
   ORDER BY totalAmount DESC;
-END //
-DELIMITER ;
+END;
+
+-- Procédure stockée pour mettre à jour le total dépensé et les badges
+CREATE PROCEDURE update_user_after_payment(
+  IN p_user_id INT,
+  IN p_amount DECIMAL(10, 2)
+)
+BEGIN
+  DECLARE current_total DECIMAL(10, 2);
+  
+  -- Mettre à jour le total dépensé
+  UPDATE users 
+  SET totalSpent = totalSpent + p_amount
+  WHERE id = p_user_id;
+  
+  -- Récupérer le nouveau total
+  SELECT totalSpent INTO current_total 
+  FROM users 
+  WHERE id = p_user_id;
+  
+  -- Ajouter les badges en fonction du montant total
+  IF current_total >= 1000000 THEN
+    INSERT IGNORE INTO user_badges (userId, badgeId) 
+    VALUES (p_user_id, (SELECT id FROM badges WHERE name = 'Millionaire'));
+  ELSEIF current_total >= 100000 THEN
+    INSERT IGNORE INTO user_badges (userId, badgeId) 
+    VALUES (p_user_id, (SELECT id FROM badges WHERE name = 'Top Spender'));
+  ELSEIF current_total >= 10000 THEN
+    INSERT IGNORE INTO user_badges (userId, badgeId) 
+    VALUES (p_user_id, (SELECT id FROM badges WHERE name = 'Whale'));
+  ELSEIF current_total >= 5000 THEN
+    INSERT IGNORE INTO user_badges (userId, badgeId) 
+    VALUES (p_user_id, (SELECT id FROM badges WHERE name = 'Dedicated'));
+  ELSEIF current_total >= 1000 THEN
+    INSERT IGNORE INTO user_badges (userId, badgeId) 
+    VALUES (p_user_id, (SELECT id FROM badges WHERE name = 'Enthusiast'));
+  ELSEIF current_total >= 500 THEN
+    INSERT IGNORE INTO user_badges (userId, badgeId) 
+    VALUES (p_user_id, (SELECT id FROM badges WHERE name = 'Rookie'));
+  ELSEIF current_total > 0 THEN
+    INSERT IGNORE INTO user_badges (userId, badgeId) 
+    VALUES (p_user_id, (SELECT id FROM badges WHERE name = 'Newcomer'));
+  END IF;
+END;
 
 -- Événements pour mettre à jour automatiquement les classements
 CREATE EVENT IF NOT EXISTS weekly_leaderboard_update

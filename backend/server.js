@@ -23,6 +23,7 @@ const authRoutes = require('./routes/auth.routes');
 const leaderboardRoutes = require('./routes/leaderboard.routes');
 const paymentRoutes = require('./routes/payment.routes');
 const userRoutes = require('./routes/user.routes');
+const healthRoutes = require('./routes/health.routes');
 
 // Initialize express app
 const app = express();
@@ -74,6 +75,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api', healthRoutes); // Route de santé pour Railway
 
 // Route de statut pour vérifier le fonctionnement de l'API
 app.get('/api/status', (req, res) => {
