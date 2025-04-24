@@ -6,6 +6,9 @@
 [functions]
   directory = "netlify/functions"
 
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
+
 [dev]
   publish = "frontend/build"
   functions = "netlify/functions"
