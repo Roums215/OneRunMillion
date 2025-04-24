@@ -4,8 +4,19 @@ const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
 // Modules de base de données
-const initDb = require('./config/initDb');
-const connectDB = require('./config/db');
+let dbModule;
+let demoMode = process.env.DEMO_MODE === 'true';
+
+// Déterminer quel module de base de données utiliser (réel ou démo)
+if (demoMode) {
+  console.log('*** MODE DÉMO ACTIVÉ - Utilisation d\'une base de données simulée ***');
+  dbModule = require('./config/demo-db');
+} else {
+  dbModule = {
+    initDb: require('./config/initDb'),
+    connectDB: require('./config/db')
+  };
+}
 
 // Import routes
 const authRoutes = require('./routes/auth.routes');
@@ -91,18 +102,38 @@ let db;
 async function startDatabase() {
   try {
     // Initialiser la structure de la base de données si nécessaire
-    await initDb();
-    
-    // Établir la connexion au pool MySQL
-    db = await connectDB();
+    if (demoMode) {
+      // Mode démo
+      await dbModule.initDb();
+      db = await dbModule.connectDB();
+    } else {
+      // Mode normal
+      try {
+        await dbModule.initDb();
+        db = await dbModule.connectDB();
+      } catch (dbError) {
+        // Si la connexion échoue, bascule automatiquement en mode démo
+        console.error('Erreur de connexion à la base de données:', dbError);
+        console.log('Basculement automatique en MODE DÉMO...');
+        
+        // Charger le module de démo en cas d'échec
+        dbModule = require('./config/demo-db');
+        demoMode = true;
+        
+        // Réessayer avec le mode démo
+        await dbModule.initDb();
+        db = await dbModule.connectDB();
+      }
+    }
     
     // Rendre le pool disponible globalement
     global.db = db;
     
-    console.log('Base de données MySQL connectée et initialisée avec succès');
+    console.log('Base de données ' + (demoMode ? 'DÉMO' : 'MySQL') + ' connectée et initialisée avec succès');
+    return db;
   } catch (error) {
     console.error('Erreur lors de l\'initialisation de la base de données:', error);
-    process.exit(1);
+    throw error; // Ne pas quitter le processus, mais propager l'erreur
   }
 }
 
@@ -111,9 +142,17 @@ startDatabase().then(() => {
   const PORT = process.env.PORT || 5000;
   server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(`Mode: ${demoMode ? 'DÉMO (données simulées)' : 'PRODUCTION (base de données réelle)'}`);
+    console.log(`OneRun API déployée avec succès - Design luxueux préservé!`);
   });
 }).catch(err => {
   console.error('Impossible de démarrer le serveur:', err);
+  // Essayer de démarrer le serveur même sans base de données
+  // pour les routes statiques et les messages d'erreur
+  const PORT = process.env.PORT || 5000;
+  server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} en mode de secours!`);
+  });
 });
 
 module.exports = { app, io };
