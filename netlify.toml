@@ -1,8 +1,10 @@
 [build]
-  base = "."
-  publish = "frontend/build"
-  command = "cd frontend && npm install && CI=false npm run build"
-  functions = "netlify/functions"
+  base = "frontend"
+  publish = "build"
+  command = "CI=false npm run build"
+
+[functions]
+  directory = "netlify/functions"
 
 [dev]
   publish = "frontend/build"
@@ -11,8 +13,15 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  to = "/.netlify/functions/api-proxy/api/:splat"
   status = 200
+  force = true
+
+[[redirects]]
+  from = "/socket.io/*"
+  to = "/.netlify/functions/api-proxy/socket.io/:splat"
+  status = 200
+  force = true
 
 [[redirects]]
   from = "/*"
