@@ -28,41 +28,28 @@ const userRoutes = require('./routes/user.routes');
 const app = express();
 const server = http.createServer(app);
 
-// Middleware CORS - Supporte plusieurs origines
+// Middleware CORS - Configuration temporairement très permissive
 app.use(cors({
-  origin: function(origin, callback) {
-    const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',');
-    // Autoriser les requêtes sans origine (comme les appels API locaux)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log(`Origine CORS bloquée: ${origin}`);
-      callback(null, false);
-    }
-  },
+  origin: '*', // Autorise toutes les origines temporairement
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
-// Configuration de Socket.io avec CORS sécurisé pour l'environnement de production
-let corsOrigins = (process.env.CORS_ORIGIN || 'https://s1043322554.onlinehome.fr').split(',');
-console.log('Configuration CORS avec origines:', corsOrigins);
+// Log des origines autorisées
+console.log('CORS configuré pour autoriser toutes les origines temporairement');
 
-// Ajouter localhost pour le développement
-if (process.env.NODE_ENV !== 'production') {
-  corsOrigins.push('http://localhost:3000');
-}
+// Configuration de Socket.io avec CORS permissif pour débogage
+console.log('Configuration Socket.io avec CORS permissif');
 
 const io = socketIo(server, {
   cors: {
-    origin: corsOrigins,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: '*', // Autorise toutes les origines pour Socket.io
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     credentials: true
   },
-  transports: ['websocket', 'polling']
+  transports: ['websocket', 'polling'] // Permet polling en fallback
 });
 
 // Middleware de sécurité et de CORS pour production
