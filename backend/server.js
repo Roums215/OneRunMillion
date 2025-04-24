@@ -17,24 +17,27 @@ const userRoutes = require('./routes/user.routes');
 const app = express();
 const server = http.createServer(app);
 
-// Configuration de Socket.io avec CORS sécurisé pour la production
+// Configuration de Socket.io avec CORS sécurisé pour l'environnement de production
+const corsOrigin = process.env.CORS_ORIGIN || 'https://s1043322554.onlinehome.fr';
+console.log('Configuration CORS avec origine:', corsOrigin);
+
 const io = socketIo(server, {
   cors: {
-    origin: function(origin, callback) {
-      callback(null, true); // Autoriser toutes les origines
-    },
+    origin: corsOrigin,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
   }
 });
 
 // Middleware de sécurité et de CORS pour production
 app.use(cors({
-  origin: function(origin, callback) {
-    callback(null, true); // Autoriser toutes les origines
-  },
+  origin: corsOrigin,
   credentials: true,
-  optionsSuccessStatus: 200
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200,
+  maxAge: 86400
 }));
 
 // Middleware spécifique pour les requêtes OPTIONS (préflight CORS)
