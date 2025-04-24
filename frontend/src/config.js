@@ -1,11 +1,11 @@
 const config = {
-  // Configuration pour frontend Netlify avec proxy pour backend Render
+  // Configuration pour frontend Netlify avec backend Render
   apiUrl: process.env.NODE_ENV === 'production'
-    ? '/.netlify/functions/api-proxy' // Utilise le proxy Netlify en production
+    ? 'https://onerunmillion.onrender.com' // URL directe du backend Render
     : 'https://onerunmillion.onrender.com', // URL directe pour le développement local
   
   socketUrl: process.env.NODE_ENV === 'production'
-    ? '/.netlify/functions/api-proxy' // Utilise le proxy Netlify en production
+    ? 'https://onerunmillion.onrender.com' // WebSockets directement vers Render
     : 'https://onerunmillion.onrender.com', // URL directe pour le développement local
   
   // Configurations visuelles (préservation du design luxueux)

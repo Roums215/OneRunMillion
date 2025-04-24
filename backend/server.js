@@ -28,22 +28,46 @@ const userRoutes = require('./routes/user.routes');
 const app = express();
 const server = http.createServer(app);
 
+// Middleware CORS - Supporte plusieurs origines
+app.use(cors({
+  origin: function(origin, callback) {
+    const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',');
+    // Autoriser les requêtes sans origine (comme les appels API locaux)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log(`Origine CORS bloquée: ${origin}`);
+      callback(null, false);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // Configuration de Socket.io avec CORS sécurisé pour l'environnement de production
-const corsOrigin = process.env.CORS_ORIGIN || 'https://s1043322554.onlinehome.fr';
-console.log('Configuration CORS avec origine:', corsOrigin);
+let corsOrigins = (process.env.CORS_ORIGIN || 'https://s1043322554.onlinehome.fr').split(',');
+console.log('Configuration CORS avec origines:', corsOrigins);
+
+// Ajouter localhost pour le développement
+if (process.env.NODE_ENV !== 'production') {
+  corsOrigins.push('http://localhost:3000');
+}
 
 const io = socketIo(server, {
   cors: {
-    origin: corsOrigin,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-  }
+    origin: corsOrigins,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+  },
+  transports: ['websocket', 'polling']
 });
 
 // Middleware de sécurité et de CORS pour production
 app.use(cors({
-  origin: corsOrigin,
+  origin: corsOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
