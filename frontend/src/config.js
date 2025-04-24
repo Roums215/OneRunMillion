@@ -1,14 +1,10 @@
 const config = {
-  // Configuration pour production (IONOS)
-  apiUrl: process.env.REACT_APP_API_URL || 'https://api.s1043322554.onlinehome.fr',
-  socketUrl: process.env.REACT_APP_SOCKET_URL || 'https://api.s1043322554.onlinehome.fr',
-  
-  // Configuration pour développement local (commentée)
-  // apiUrl: process.env.REACT_APP_API_URL || 'http://localhost:8080',
-  // socketUrl: process.env.REACT_APP_SOCKET_URL || 'http://localhost:8080',
+  // Configuration pour déploiement sur Netlify
+  apiUrl: process.env.REACT_APP_API_URL || '',  // API relative au même domaine
+  socketUrl: process.env.REACT_APP_SOCKET_URL || window.location.origin, // Socket.io via le même domaine
 };
 
 // Logging de configuration
-console.log('Configuration API pour IONOS:', config);
+console.log('Configuration API pour Netlify:', config);
 
 export default config;
