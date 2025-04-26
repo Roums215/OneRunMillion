@@ -23,7 +23,14 @@
     {
       "src": "LogoOneRunMillion.jpg",
       "type": "image/jpg",
-      "sizes": "180x180"
+      "sizes": "180x180",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.jpg",
+      "type": "image/jpg",
+      "sizes": "180x180",
+      "purpose": "any maskable"
     }
   ],
   "start_url": "/",
