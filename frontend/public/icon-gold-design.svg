@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <defs>
+    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9d780" />
+      <stop offset="50%" stop-color="#f6b818" />
+      <stop offset="100%" stop-color="#dd9009" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fond avec coins arrondis -->
+  <rect x="2" y="2" width="176" height="176" rx="40" ry="40" fill="url(#gold-gradient)" filter="url(#shadow)" />
+  
+  <!-- Anneau intérieur -->
+  <circle cx="90" cy="90" r="65" fill="none" stroke="#ffffff" stroke-width="4" />
+  
+  <!-- Flèche élégante -->
+  <path d="M90,40 L115,90 L90,140 L65,90 Z" fill="#ffffff" />
+  
+  <!-- Effet de brillance -->
+  <circle cx="65" cy="50" r="15" fill="#ffffff" opacity="0.3" />
+</svg>
